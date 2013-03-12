@@ -1,0 +1,7 @@
+*~
+#*
+*.ttf
+*.sfd
+*.pdf
+
+build/
