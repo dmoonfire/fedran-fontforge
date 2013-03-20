@@ -1,33 +1,19 @@
 #!/usr/bin/env python
-import fontforge
+import sys
 
-# Create a new font.
-font = fontforge.font()
+import fedran
 
-glyph = font.createChar(65, "A")
-pen = glyph.glyphPen();
-pen.moveTo((100,100));
-pen.lineTo((100,200));
-pen.lineTo((200,200));
-pen.lineTo((200,100));
-pen.closePath();
-pen = None
+def generate(args):
+    # Loop through all the remaining arguments which should be just
+    # INI files.
+    for ini_file in args:
+        # Create the font description from the INI file.
+        font = fedran.FedranFont()
+        font.initialize(ini_file)
 
-glyph = font.createChar(66, "B")
-pen = glyph.glyphPen();
-pen.moveTo((100,100));
-pen.lineTo((100,200));
-pen.lineTo((200,100));
-pen.closePath();
-pen = None
+        # Generate the font.
+        font.generate()
 
-print len(font)
 
-#font.save("test.sfd")
-font.selection.select(("ranges",None),"A","A")
-font.autoHint()
-
-print font["A"].foreground
-
-font.fontname = "Fedran"
-font.generate("../build/Fedran-Miwafu.ttf")
+if __name__ == "__main__":
+    generate(sys.argv[1:])

@@ -3,5 +3,6 @@
 *.ttf
 *.sfd
 *.pdf
+*.pyc
 
 build/
