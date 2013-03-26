@@ -1,0 +1,36 @@
+---
+label: Ascent verses Cap Height
+font-size: 100
+text: HOno
+
+label-size: 20
+label-font: /usr/share/fonts/truetype/freefont/FreeSans.ttf
+
+x-margin: 10
+y-margin: 5
+
+x-axis:
+  - label: ascent 0.6 em
+    font:
+      ascent: 0.6 em
+  - label: ascent 0.7 em
+    font:
+      ascent: 0.7 em
+  - label: ascent 0.8 em
+    font:
+      ascent: 0.8 em
+  - label: ascent 0.9 em
+    font:
+      ascent: 0.9 em
+
+y-axis:
+  - label: x-height 0.3 em
+    font:
+      x-height: 0.3 em
+  - label: x-height 0.4 em
+    font:
+      x-height: 0.4 em
+  - label: x-height 0.5 em
+    font:
+      x-height: 0.5 em
+...

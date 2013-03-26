@@ -1,14 +1,19 @@
 """Python class to generate a parametric font for the Fedran world."""
 
 
-import fontforge
 import ConfigParser
+import fontforge
+import logging
+import os
 
 import fedran.block0000
 
 
 class FedranFont(object):
     def __init__(self):
+        # Set up logging.
+        self.log = logging.getLogger("font")
+
         # Initialize the common variables and properties
         self.initialize_metrics()
 
@@ -16,17 +21,12 @@ class FedranFont(object):
         self.glyphs = {}
         fedran.block0000.initialize_glyphs(self)
 
-    def initialize(self, ini_file):
+    def initialize(self, config):
         # Keep track of the INI file we're using
-        self.ini_file = ini_file
-
-        # Parse the INI file so we can pull out the elements needed.
-        config = ConfigParser.ConfigParser()
-        config.read(ini_file)
+        self.config = config
 
         # Pull out the common fields.
-        self.name = config.get('Font', 'name')
-        self.filename = config.get('Font', 'filename')
+        self.name = config['name']
 
     def initialize_metrics(self):
         # Set up the internal metrics.
@@ -40,7 +40,7 @@ class FedranFont(object):
         generates each one."""
 
         # Create a new font.
-        font = fontforge.font()
+        self.font = fontforge.font()
 
         # Go through the glyphs and generate each one. We display the
         # current status of the generation to the screen so we can see
@@ -50,13 +50,24 @@ class FedranFont(object):
 
         for gid, glyph in self.glyphs.iteritems():
             processed += 1
-            print "[{0:4}/{1:4}] Unicode {3:04x}: {2}".format(
+            self.log.debug("  [{0:4}/{1:4}] Unicode {3:04x}: {2}".format(
                 processed,
                 total,
                 glyph.label,
-                glyph.gid)
-            glyph.generate(font)
+                glyph.gid))
+            glyph.generate(self.font)
 
         # Finalize the font.
-        font.fontname = self.name
-        font.generate("../build/" + self.filename + ".ttf")
+        self.font.fontname = self.name
+
+    def save_ttf(self, filename):
+        self.log.info("Generating TTF font: " + filename)
+        self.font.generate(filename)
+
+    def save_otf(self, filename):
+        self.log.info("Generating OTF font: " + filename)
+        self.font.generate(filename)
+
+    def save_sfd(self, filename):
+        self.log.info("Generating SFD font: " + filename)
+        self.font.save(filename)
