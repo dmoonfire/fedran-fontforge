@@ -1,0 +1,31 @@
+---
+name:   Fedran MF
+family: Fedran
+
+font:
+  ascent:     0.8 em
+  descent:    -0.1 em
+  x-height:   0.6 em
+
+  pen:
+    stroke: 0.1 em
+    bar:
+      stroke: 0.05 em
+    #stem: { stroke: 0.1 em }
+
+  cap-height:  0.0 em
+  foot-height: 0.0 em
+
+  stem:
+    width: pen.stem.stroke
+    a:
+      y: ascent - cap-height
+      #width: pen.stem.stroke - 0.01 em
+    b:
+      y: x-height
+      #left: { y: stem.b.y + 0.01 em }
+    c:
+      y: b.x-height - pen.bar 
+    d:
+      y: foot-height
+...

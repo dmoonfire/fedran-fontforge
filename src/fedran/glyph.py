@@ -1,53 +1,41 @@
+import fedran
+
+
 class FedranGlyph(object):
     """Class that represents a single glyphy (character) inside the
     font."""
 
-    def __init__(self, font, gid, label):
-        self.font = font
+    def __init__(self, parent, gid, label):
+        self.parent = parent
         self.gid = gid
         self.label = label
+        self.values = fedran.LookupDictionary(parent.values)
 
-    def _get(name):
-        """Internal method for getting property values inside the
-        glphy. If the glphy does not have the property, then the value
-        from the base font is used instead. In both cases, if the
-        value is a method, it is called with no parameters before
-        returning the results."""
-
-        def get(self):
-            # Try to get the value from the current glyph. If not,
-            # then use the base so we have a common place for
-            # settings.
-            if var in self.__dict__:
-                value = self.__dict__[name]
-            else:
-                value = self.base_font.__dict__[name]
-
-            # If the resulting variable has a '__call__', then it is a
-            # method. We call it with no parameters to resolve the
-            # parameter.
-            if hasattr(value, '__call__'):
-                value = value(self)
-
-            # Return the resulting variable.
-            return value
-
-    def _set(name):
-        """Internal method for setting property values inside the
-        glyph."""
-
-        def set(self, value):
-            self.__dict__[name] = value
-        return set
+    # baseline = _prop("baseline")
+    # bottom_line_gap = _prop("bottom_line_gap")
+    # top_line_gap = _prop("top_line_gap")
+    # line_gap = _prop("line_gap")
+    # em = _prop("em")
+    # ascent = _prop("ascent")
+    # descent = _prop("descent")
+    # cap_height = _prop("cap_height")
+    # mean_height = _prop("mean_height")
 
     def generate(self, font):
         """Generates a single glyph inside the font."""
 
+        # Create the font and set up the initial pen.
         glyph = font.createChar(self.gid, self.label)
         pen = glyph.glyphPen();
-        pen.moveTo((100,100));
-        pen.lineTo((100,200));
-        pen.lineTo((200,200));
-        pen.lineTo((200,100));
-        pen.closePath();
+
+        # Have the glyph draw itself.
+        self.draw(self.values, font, glyph, pen)
+
+        # Clean out the pen so FontForge releases all the resources.
         pen = None
+
+        glyph.right_side_bearing = 100
+
+    #@abstract
+    def draw(self, values, font, glyph, pen):
+        pass

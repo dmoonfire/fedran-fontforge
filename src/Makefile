@@ -57,9 +57,18 @@ compare: $(COMPARISONS_PNG)
 	./compare.py --renderer=harfbuzz comparisons/$*.yaml ../build/comparisons/$*.png
 
 #
+# Preview
+#
+
+preview: ../build/Fedran.pdf
+
+../build/Fedran.pdf: ../build/Fedran.ttf
+	mfgames-font unicode-chart ../build/Fedran.ttf ../build/Fedran.pdf > /dev/null
+
+#
 # Requirements
 #
 
-# Used to install the requirements in Debian-based systems.
+# Used to install the requirements in a Debian-based systems.
 install-requirements:
 	sudo apt-get install fontforge python-fontforge python-yaml imagemagick libharfbuzz-bin fonts-freefont-ttf

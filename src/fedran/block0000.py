@@ -11,10 +11,31 @@ def initialize_glyphs(font):
     font.add_glyph(G006F(font))
 
 
+# LATIN CAPITAL LETTER H
 class G0048(fedran.glyph.FedranGlyph):
     def __init__(self, font):
         super(G0048, self).__init__(font, 0x0048, 'LATIN CAPITAL LETTER H')
 
+    def draw(self, g, font, glyph, pen):
+        print "BLG: " + format(g.bottom_line_gap)
+        print "D: " + format(g.descent)
+        print "B: " + format(g.baseline)
+        print "M: " + format(g.mean_height)
+        print "C: " + format(g.cap_height)
+
+        pen.moveTo(100, 0)
+        pen.lineTo(100, g.cap_height)
+        pen.lineTo(120, g.cap_height)
+        pen.lineTo(120, g.mean_height)
+        pen.lineTo(140, g.mean_height)
+        pen.lineTo(140, g.cap_height)
+        pen.lineTo(160, g.cap_height)
+        pen.lineTo(160, 0)
+        pen.lineTo(140, 0)
+        pen.lineTo(140, g.mean_height - 10)
+        pen.lineTo(120, g.mean_height - 10)
+        pen.lineTo(120, 0)
+        pen.closePath();
 
 class G004F(fedran.glyph.FedranGlyph):
     def __init__(self, font):
